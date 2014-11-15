@@ -2,3 +2,7 @@
 *.classpath
 *.project
 *.settings
+/JogoForca.bd.lck
+/JogoForca.bd.log
+/JogoForca.bd.properties
+/JogoForca.bd.script
