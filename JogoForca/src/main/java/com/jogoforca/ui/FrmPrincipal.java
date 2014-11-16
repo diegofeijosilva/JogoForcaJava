@@ -14,15 +14,16 @@ import com.jogoforca.dao.PalavrasDao;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
-import java.awt.Window.Type;
 import javax.swing.JTextField;
-import java.awt.Font;
+
+import java.awt.Window.Type;
 
 public class FrmPrincipal extends JFrame {
 
@@ -95,23 +96,23 @@ public class FrmPrincipal extends JFrame {
 		txtPalavra.setColumns(10);
 		
 		txtLetra = new JTextField();
-		txtLetra.setFont(new Font("Arial", Font.BOLD, 20));
+		//txtLetra.setFont(new Font("Arial", Font.BOLD, 20));
 		txtLetra.setBounds(394, 171, 46, 31);
 		contentPane.add(txtLetra);
 		txtLetra.setColumns(10);
 		
 		
-		imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/cabeca.png")));
+		imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/cabeca.png")));
 		imgCabeca.setBounds(121, 78, 113, 124);
 		contentPane.add(imgCabeca);
 		
 		
-		imgMaoEsq.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/maoEsq.png")));
+		imgMaoEsq.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/maoEsq.png")));
 		imgMaoEsq.setBounds(75, 173, 62, 40);
 		contentPane.add(imgMaoEsq);
 		
 		
-		imgCorpo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/corpo.png")));
+		imgCorpo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/corpo.png")));
 		imgCorpo.setBounds(132, 177, 84, 107);
 		contentPane.add(imgCorpo);
 		
@@ -146,22 +147,22 @@ public class FrmPrincipal extends JFrame {
 		contentPane.add(label);
 		
 		
-		imgMaoDir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/maoDir.png")));
+		imgMaoDir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/maoDir.png")));
 		imgMaoDir.setBounds(194, 198, 72, 40);
 		contentPane.add(imgMaoDir);
 		
 		
-		imgTronco.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/tronco.png")));
+		imgTronco.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/tronco.png")));
 		imgTronco.setBounds(133, 267, 62, 59);
 		contentPane.add(imgTronco);
 		
 		
-		imgPeDir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/peDir.png")));
+		imgPeDir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/peDir.png")));
 		imgPeDir.setBounds(167, 319, 84, 94);
 		contentPane.add(imgPeDir);
 		
 		
-		imgPeEsq.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/peEsq.png")));
+		imgPeEsq.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/peEsq.png")));
 		imgPeEsq.setBounds(95, 318, 72, 91);
 		contentPane.add(imgPeEsq);
 		
@@ -186,7 +187,7 @@ public class FrmPrincipal extends JFrame {
 		
 		JLabel imgFundo = new JLabel("");
 		imgFundo.setBounds(0, 21, 816, 413);
-		imgFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jogoforca/resources/fundo.png")));
+		imgFundo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/fundo.png")));
 		contentPane.add(imgFundo);
 		
 		JLabel lblNewLabel = new JLabel("New label");
