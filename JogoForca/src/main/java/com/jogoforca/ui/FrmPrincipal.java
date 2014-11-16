@@ -1,16 +1,140 @@
 package com.jogoforca.ui;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JToolBar;
+import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import com.jogoforca.dao.PalavrasDao;
-import com.jogoforca.db.Conexao;
 
-public class FrmPrincipal {
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JDesktopPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.ImageIcon;
+import java.awt.Window.Type;
 
+public class FrmPrincipal extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		PalavrasDao dao = new PalavrasDao();
-		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					FrmPrincipal frame = new FrmPrincipal();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
-	
+
+	/**
+	 * Create the frame.
+	 */
+	public FrmPrincipal() {
+		setTitle("Jogo Forca");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 832, 474);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		final JLabel imgCabeca = new JLabel("");
+		imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/cabeca.png")));
+		imgCabeca.setBounds(121, 78, 113, 124);
+		contentPane.add(imgCabeca);
+		
+		final JLabel imgMaoEsq = new JLabel("");
+		imgMaoEsq.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/maoEsq.png")));
+		imgMaoEsq.setBounds(75, 173, 62, 40);
+		contentPane.add(imgMaoEsq);
+		
+		final JLabel imgCorpo = new JLabel("");
+		imgCorpo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/corpo.png")));
+		imgCorpo.setBounds(132, 177, 84, 107);
+		contentPane.add(imgCorpo);
+		
+		JDesktopPane desktopPane = new JDesktopPane();
+		desktopPane.setBounds(113, 55, -58, -43);
+		contentPane.add(desktopPane);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 816, 21);
+		contentPane.add(menuBar);
+		
+		JMenu mnTeste = new JMenu("Cadastro");
+		menuBar.add(mnTeste);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Palavra ou Frase");
+		mnTeste.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Jogador");
+		mnTeste.add(mntmNewMenuItem_1);
+		
+		JMenu mnAbout = new JMenu("About");
+		menuBar.add(mnAbout);
+		
+		JLabel label = new JLabel("");
+		label.setBounds(132, 195, 84, 107);
+		contentPane.add(label);
+		
+		final JLabel imgMaoDir = new JLabel("");
+		imgMaoDir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/maoDir.png")));
+		imgMaoDir.setBounds(194, 198, 72, 40);
+		contentPane.add(imgMaoDir);
+		
+		final JLabel imgTronco = new JLabel("");
+		imgTronco.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/tronco.png")));
+		imgTronco.setBounds(133, 267, 62, 59);
+		contentPane.add(imgTronco);
+		
+		final JLabel imgPeDir = new JLabel("");
+		imgPeDir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/peDir.png")));
+		imgPeDir.setBounds(167, 319, 84, 94);
+		contentPane.add(imgPeDir);
+		
+		final JLabel imgPeEsq = new JLabel("");
+		imgPeEsq.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/jogoforca/resources/peEsq.png")));
+		imgPeEsq.setBounds(95, 318, 72, 91);
+		contentPane.add(imgPeEsq);
+		
+		JButton btnIniciar = new JButton("Iniciar Partida");
+		btnIniciar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				//Seta invisivel as imagens do boneco
+				imgCabeca.setVisible(false);
+				imgCorpo.setVisible(false);
+				imgMaoDir.setVisible(false);
+				imgMaoEsq.setVisible(false);
+				imgPeDir.setVisible(false);
+				imgPeEsq.setVisible(false);
+				imgTronco.setVisible(false);
+				
+			}
+		});
+		btnIniciar.setBounds(685, 403, 131, 31);
+		contentPane.add(btnIniciar);
+		
+		JLabel imgFundo = new JLabel("");
+		imgFundo.setBounds(0, 21, 816, 413);
+		imgFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jogoforca/resources/fundo.png")));
+		contentPane.add(imgFundo);
+	}
 }
