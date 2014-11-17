@@ -11,19 +11,26 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import com.jogoforca.dao.PalavrasDao;
+import com.jogoforca.model.Palavra;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import java.awt.Window.Type;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrmPrincipal extends JFrame {
 
@@ -38,7 +45,19 @@ public class FrmPrincipal extends JFrame {
 	final JLabel imgPeDir = new JLabel("");
 	final JLabel imgTronco = new JLabel("");
 	final JLabel imgMaoDir = new JLabel("");
+	
+	JLabel lblPalavra = new JLabel("");
+	
+	final JButton btnIniciar = new JButton("Iniciar Partida");
+	final JButton btnCancelar = new JButton("Cancelar");
+	final JButton btnVerificar = new JButton("Verificar");
 
+	private PalavrasDao daoPalavra = new PalavrasDao();
+	private Palavra palavra = new Palavra();
+	
+	// Serve para ir mostrando o corpo do boneco
+	private Integer contadorBoneco = 0;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -67,7 +86,11 @@ public class FrmPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		lblPalavra.setVisible(false);
+		btnIniciar.setEnabled(true);
+		btnCancelar.setEnabled(false);
+		btnVerificar.setEnabled(false);
+		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -81,23 +104,80 @@ public class FrmPrincipal extends JFrame {
 				imgPeEsq.setVisible(true);
 				imgTronco.setVisible(true);
 				
+				btnIniciar.setEnabled(true);
+				btnCancelar.setEnabled(false);
+				lblPalavra.setVisible(false);
+				btnVerificar.setEnabled(false);
+				
 			}
 		});
+		
+		
+		lblPalavra.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblPalavra.setBounds(280, 80, 504, 31);
+		contentPane.add(lblPalavra);
+		
+		JLabel lblOu = new JLabel("OU");
+		lblOu.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblOu.setBounds(279, 168, 46, 31);
+		contentPane.add(lblOu);
+		
+		JLabel lblDigiteAPalavra = new JLabel("Digite a Palavra ou Frase:");
+		lblDigiteAPalavra.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblDigiteAPalavra.setBounds(280, 198, 288, 31);
+		contentPane.add(lblDigiteAPalavra);
+		
+		JLabel lblNewLabel = new JLabel("Digite uma letra:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel.setBounds(280, 136, 180, 31);
+		contentPane.add(lblNewLabel);
 		btnCancelar.setBounds(552, 403, 131, 31);
 		contentPane.add(btnCancelar);
 		
-		JButton btnNewButton = new JButton("Verificar");
-		btnNewButton.setBounds(500, 330, 89, 23);
-		contentPane.add(btnNewButton);
+		
+		btnVerificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// Existe o caracter na palavra
+				if(palavra.getDescricao().indexOf(txtLetra.getText()) != -1){
+					JOptionPane.showMessageDialog(null,"Letra encontrada na Palavra ou Frase!");
+				} else
+				{
+					
+					switch (contadorBoneco) {
+					case 0: imgCabeca.setVisible(true); break;
+					case 1: imgCorpo.setVisible(true); break;
+					case 2: imgMaoDir.setVisible(true); break;
+					case 3: imgMaoEsq.setVisible(true); break;
+					case 4: imgTronco.setVisible(true); break;
+					case 5: imgPeDir.setVisible(true); break;
+					case 6: imgPeEsq.setVisible(true); break;
+					case 7: imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/cabecaFim.png"))); break;
+					
+					default:
+						break;
+					}
+					
+					contadorBoneco++;
+					
+				}
+				
+			}
+		});
+		btnVerificar.setBounds(616, 173, 89, 23);
+		contentPane.add(btnVerificar);
 		
 		txtPalavra = new JTextField();
-		txtPalavra.setBounds(261, 327, 229, 29);
+		txtPalavra.setBounds(280, 227, 263, 29);
 		contentPane.add(txtPalavra);
 		txtPalavra.setColumns(10);
 		
 		txtLetra = new JTextField();
+		txtLetra.setFont(new Font("Arial Black", Font.BOLD, 20));
+		txtLetra.addKeyListener(new KeyAdapter() { public void keyTyped(KeyEvent e) { char keyChar = e.getKeyChar(); if (Character.isLowerCase(keyChar)) { e.setKeyChar(Character.toUpperCase(keyChar)); } } });
+		
 		//txtLetra.setFont(new Font("Arial", Font.BOLD, 20));
-		txtLetra.setBounds(394, 171, 46, 31);
+		txtLetra.setBounds(470, 140, 46, 31);
 		contentPane.add(txtLetra);
 		txtLetra.setColumns(10);
 		
@@ -142,9 +222,9 @@ public class FrmPrincipal extends JFrame {
 		JMenu mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
 		
-		JLabel label = new JLabel("");
-		label.setBounds(132, 195, 84, 107);
-		contentPane.add(label);
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setBounds(0, 0, 46, 14);
+		contentPane.add(lblNewLabel_1);
 		
 		
 		imgMaoDir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/maoDir.png")));
@@ -166,10 +246,12 @@ public class FrmPrincipal extends JFrame {
 		imgPeEsq.setBounds(95, 318, 72, 91);
 		contentPane.add(imgPeEsq);
 		
-		JButton btnIniciar = new JButton("Iniciar Partida");
+		
 		btnIniciar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				
+				btnCancelar.setEnabled(true);
 				
 				//Seta invisivel as imagens do boneco
 				imgCabeca.setVisible(false);
@@ -179,6 +261,17 @@ public class FrmPrincipal extends JFrame {
 				imgPeDir.setVisible(false);
 				imgPeEsq.setVisible(false);
 				imgTronco.setVisible(false);
+				
+				palavra = daoPalavra.getPalavraRandomico();
+				
+				System.out.println("PALAVRA: " + palavra.getDescricao());
+				
+				lblPalavra.setText("PALAVRA COM "+palavra.getDescricao().length()+" LETRAS.");
+				lblPalavra.setVisible(true);
+				
+				btnIniciar.setEnabled(false);
+				btnVerificar.setEnabled(true);
+				contadorBoneco = 0;
 				
 			}
 		});
@@ -190,8 +283,9 @@ public class FrmPrincipal extends JFrame {
 		imgFundo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/fundo.png")));
 		contentPane.add(imgFundo);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(376, 195, 46, 14);
-		contentPane.add(lblNewLabel);
+		JLabel lblLetra = new JLabel("Digite uma letra:");
+		lblLetra.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblLetra.setBounds(280, 148, 180, 31);
+		contentPane.add(lblLetra);
 	}
 }

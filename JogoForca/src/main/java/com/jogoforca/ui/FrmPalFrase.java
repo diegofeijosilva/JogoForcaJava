@@ -16,6 +16,8 @@ import com.jogoforca.model.Palavra;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrmPalFrase extends JDialog {
 
@@ -34,6 +36,9 @@ public class FrmPalFrase extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			textField = new JTextField();
+			
+			textField.addKeyListener(new KeyAdapter() { public void keyTyped(KeyEvent e) { char keyChar = e.getKeyChar(); if (Character.isLowerCase(keyChar)) { e.setKeyChar(Character.toUpperCase(keyChar)); } } });
+			
 			textField.setBounds(10, 28, 296, 20);
 			contentPanel.add(textField);
 			textField.setColumns(10);
@@ -59,7 +64,7 @@ public class FrmPalFrase extends JDialog {
 						Boolean retorno =  dao.saveOrUpdate(palavra);
 						
 						if(retorno){
-							JOptionPane.showMessageDialog(null,"Dados salvos com sucesso");
+							JOptionPane.showMessageDialog(null,"Dados salvos com sucesso! \nTotal de registros: " + dao.getCountRegistros());
 							FrmPalFrase.this.dispose();
 						} else {
 							JOptionPane.showMessageDialog(null,"Houve um problema ao salvar!");
