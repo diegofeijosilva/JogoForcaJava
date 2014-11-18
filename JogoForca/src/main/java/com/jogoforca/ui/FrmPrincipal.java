@@ -156,51 +156,54 @@ public class FrmPrincipal extends JFrame {
 		btnVerificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				// Existe o caracter na palavra
-				if(palavra.getDescricao().indexOf(txtLetra.getText()) != -1){
-					JOptionPane.showMessageDialog(null,"Letra encontrada na Palavra ou Frase!");
-					
-					Integer pos = getPosicaoString(palavra.getDescricao(), txtLetra.getText());
-					
-					String pal="";
-					for(int i=0; i < palavra.getDescricao().length(); i++){
+				if(!txtLetra.getText().isEmpty()){
+					// Existe o caracter na palavra
+					if(palavra.getDescricao().indexOf(txtLetra.getText()) != -1){
+						JOptionPane.showMessageDialog(null,"Letra encontrada na Palavra ou Frase!");
 						
-						if(i == pos){
-							pal = pal + txtLetra.getText();
+						Integer pos = getPosicaoString(palavra.getDescricao(), txtLetra.getText());
+						
+						String pal="";
+						for(int i=0; i < palavra.getDescricao().length(); i++){
+							
+							if(i == pos){
+								pal = pal + txtLetra.getText();
+							}
+							else
+								pal = pal + " _ ";
 						}
-						else
-							pal = pal + " _ ";
-					}
-					
-					lblPalavra.setText(pal);
-					
-					txtLetra.setText(null);
-					
-				} else
-				{
-					lstErros.append(txtLetra.getText()+"\n");
-					
-					switch (contadorBoneco) {
-					case 0: imgCabeca.setVisible(true); break;
-					case 1: imgCorpo.setVisible(true); break;
-					case 2: imgMaoDir.setVisible(true); break;
-					case 3: imgMaoEsq.setVisible(true); break;
-					case 4: imgTronco.setVisible(true); break;
-					case 5: imgPeDir.setVisible(true); break;
-					case 6: imgPeEsq.setVisible(true); break;
-					case 7: {
-						imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/cabecaFim.png"))); 
-						JOptionPane.showMessageDialog(null,"Você foi enforcado!");
-						btnVerificar.setEnabled(false);
-						break;
+						
+						lblPalavra.setText(pal);
+						lblPalavra.setVisible(true);
+						
+						txtLetra.setText(null);
+						
+					} else
+					{
+						lstErros.append(txtLetra.getText()+"\n");
+						
+						switch (contadorBoneco) {
+						case 0: imgCabeca.setVisible(true); break;
+						case 1: imgCorpo.setVisible(true); break;
+						case 2: imgMaoDir.setVisible(true); break;
+						case 3: imgMaoEsq.setVisible(true); break;
+						case 4: imgTronco.setVisible(true); break;
+						case 5: imgPeDir.setVisible(true); break;
+						case 6: imgPeEsq.setVisible(true); break;
+						case 7: {
+							imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/cabecaFim.png"))); 
+							JOptionPane.showMessageDialog(null,"Você foi enforcado!");
+							btnVerificar.setEnabled(false);
+							break;
+							}
+						
+						default:
+							break;
 						}
-					
-					default:
-						break;
+						
+						contadorBoneco++;
+						
 					}
-					
-					contadorBoneco++;
-					
 				}
 				
 			}
