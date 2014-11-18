@@ -194,7 +194,7 @@ public class FrmPrincipal extends JFrame {
 							imgMaoEsq.setVisible(true);
 							break;
 						case 4:
-							imgTronco.setVisible(true);
+							imgTronco.setVisible(true); 
 							break;
 						case 5:
 							imgPeDir.setVisible(true);
