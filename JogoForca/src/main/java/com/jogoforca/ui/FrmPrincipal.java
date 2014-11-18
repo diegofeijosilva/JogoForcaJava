@@ -31,6 +31,9 @@ import java.awt.Window.Type;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+import javax.swing.JTextArea;
 
 public class FrmPrincipal extends JFrame {
 
@@ -51,6 +54,8 @@ public class FrmPrincipal extends JFrame {
 	final JButton btnIniciar = new JButton("Iniciar Partida");
 	final JButton btnCancelar = new JButton("Cancelar");
 	final JButton btnVerificar = new JButton("Verificar");
+	
+	final JTextArea lstErros = new JTextArea();
 
 	private PalavrasDao daoPalavra = new PalavrasDao();
 	private Palavra palavra = new Palavra();
@@ -109,8 +114,21 @@ public class FrmPrincipal extends JFrame {
 				lblPalavra.setVisible(false);
 				btnVerificar.setEnabled(false);
 				
+				imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/cabeca.png"))); 
+				lstErros.setText(null);
+				
 			}
 		});
+		
+		JLabel lblErros = new JLabel("Erros:");
+		lblErros.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblErros.setBounds(657, 148, 101, 31);
+		contentPane.add(lblErros);
+		lstErros.setEditable(false);
+		
+		
+		lstErros.setBounds(657, 175, 149, 212);
+		contentPane.add(lstErros);
 		
 		
 		lblPalavra.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -141,8 +159,26 @@ public class FrmPrincipal extends JFrame {
 				// Existe o caracter na palavra
 				if(palavra.getDescricao().indexOf(txtLetra.getText()) != -1){
 					JOptionPane.showMessageDialog(null,"Letra encontrada na Palavra ou Frase!");
+					
+					Integer pos = getPosicaoString(palavra.getDescricao(), txtLetra.getText());
+					
+					String pal="";
+					for(int i=0; i < palavra.getDescricao().length(); i++){
+						
+						if(i == pos){
+							pal = pal + txtLetra.getText();
+						}
+						else
+							pal = pal + " _ ";
+					}
+					
+					lblPalavra.setText(pal);
+					
+					txtLetra.setText(null);
+					
 				} else
 				{
+					lstErros.append(txtLetra.getText()+"\n");
 					
 					switch (contadorBoneco) {
 					case 0: imgCabeca.setVisible(true); break;
@@ -152,7 +188,12 @@ public class FrmPrincipal extends JFrame {
 					case 4: imgTronco.setVisible(true); break;
 					case 5: imgPeDir.setVisible(true); break;
 					case 6: imgPeEsq.setVisible(true); break;
-					case 7: imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/cabecaFim.png"))); break;
+					case 7: {
+						imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/cabecaFim.png"))); 
+						JOptionPane.showMessageDialog(null,"Você foi enforcado!");
+						btnVerificar.setEnabled(false);
+						break;
+						}
 					
 					default:
 						break;
@@ -163,8 +204,31 @@ public class FrmPrincipal extends JFrame {
 				}
 				
 			}
+
+			private Integer getPosicaoString(String palavra, String car) {
+				
+				//aqui ele pega a quantidade de carcteres que tem uma determinada variável  
+				//e armazena numa INT para usá-la de contador  
+				int contador = palavra.length();  
+				  
+				//cria um for( para fazer uma varredura letra por letra até encontrar  
+				for(int i = 0;i<contador;i++){  
+				    //usamos substring pra pegar um caractere, passando como parâmetro,  
+				    //o primeiro caractere a ser pega, até a ultima.  
+				    //fiz um if para verificar se o caractere é igual a "_"  
+				    if (palavra.substring(i,i+1).equals(car)){  
+				        int posicao = i+1;  
+				        //JOptionPane.showMessageDialog(null,"Está na posição " + posicao ,"TITULO",1);  
+				        return posicao;
+				    }  
+				      
+				}  
+				
+				return 0;
+				
+			}
 		});
-		btnVerificar.setBounds(616, 173, 89, 23);
+		btnVerificar.setBounds(280, 267, 89, 23);
 		contentPane.add(btnVerificar);
 		
 		txtPalavra = new JTextField();
@@ -266,12 +330,19 @@ public class FrmPrincipal extends JFrame {
 				
 				System.out.println("PALAVRA: " + palavra.getDescricao());
 				
-				lblPalavra.setText("PALAVRA COM "+palavra.getDescricao().length()+" LETRAS.");
+				String pal="";
+				for(int i=0; i < palavra.getDescricao().length(); i++){
+					pal = pal + " _";
+				}
+				
+				//lblPalavra.setText("PALAVRA COM "+palavra.getDescricao().length()+" LETRAS.");
+				lblPalavra.setText(pal);
 				lblPalavra.setVisible(true);
 				
 				btnIniciar.setEnabled(false);
 				btnVerificar.setEnabled(true);
 				contadorBoneco = 0;
+				lstErros.setText(null);
 				
 			}
 		});
@@ -288,4 +359,6 @@ public class FrmPrincipal extends JFrame {
 		lblLetra.setBounds(280, 148, 180, 31);
 		contentPane.add(lblLetra);
 	}
+	
+	
 }

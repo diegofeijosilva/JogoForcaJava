@@ -8,7 +8,7 @@ public class Conexao {
 	
 	    private static String JDBC_DRIVER = "org.hsqldb.jdbcDriver";  
 	    //private static String DATABASE_URL = "jdbc:hsqldb:file:c:/bd/banco.bd";   
-	    private static String DATABASE_URL = "jdbc:hsqldb:file:/bd/JogoForca.bd"; 
+	    private static String DATABASE_URL = "jdbc:hsqldb:file:JogoForca.bd"; 
 	    
 	    private Connection conn = null; 
 	      
