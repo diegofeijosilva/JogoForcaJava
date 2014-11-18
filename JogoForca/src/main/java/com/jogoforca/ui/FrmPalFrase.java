@@ -36,9 +36,16 @@ public class FrmPalFrase extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			textField = new JTextField();
-			
-			textField.addKeyListener(new KeyAdapter() { public void keyTyped(KeyEvent e) { char keyChar = e.getKeyChar(); if (Character.isLowerCase(keyChar)) { e.setKeyChar(Character.toUpperCase(keyChar)); } } });
-			
+
+			textField.addKeyListener(new KeyAdapter() {
+				public void keyTyped(KeyEvent e) {
+					char keyChar = e.getKeyChar();
+					if (Character.isLowerCase(keyChar)) {
+						e.setKeyChar(Character.toUpperCase(keyChar));
+					}
+				}
+			});
+
 			textField.setBounds(10, 28, 296, 20);
 			contentPanel.add(textField);
 			textField.setColumns(10);
@@ -56,22 +63,29 @@ public class FrmPalFrase extends JDialog {
 				JButton okButton = new JButton("Salvar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
-						Palavra palavra = new Palavra();
-						PalavrasDao dao = new PalavrasDao();
-						
-						palavra.setDescricao(textField.getText());
-						Boolean retorno =  dao.saveOrUpdate(palavra);
-						
-						if(retorno){
-							JOptionPane.showMessageDialog(null,"Dados salvos com sucesso! \nTotal de registros: " + dao.getCountRegistros());
-							FrmPalFrase.this.dispose();
+
+						if (textField.getText().equals("")) {
+							JOptionPane.showMessageDialog(null,
+									"É preciso preencher o campo descrição!");
 						} else {
-							JOptionPane.showMessageDialog(null,"Houve um problema ao salvar!");
+							Palavra palavra = new Palavra();
+							PalavrasDao dao = new PalavrasDao();
+
+							palavra.setDescricao(textField.getText());
+							Boolean retorno = dao.saveOrUpdate(palavra);
+
+							if (retorno) {
+								JOptionPane.showMessageDialog(null,
+										"Dados salvos com sucesso! \nTotal de registros: "
+												+ dao.getCountRegistros());
+								FrmPalFrase.this.dispose();
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"Houve um problema ao salvar!");
+							}
+
 						}
-						
-						
-						
+
 					}
 				});
 				okButton.setActionCommand("OK");

@@ -34,6 +34,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JTextArea;
+import java.awt.Color;
 
 public class FrmPrincipal extends JFrame {
 
@@ -62,6 +63,7 @@ public class FrmPrincipal extends JFrame {
 	
 	// Serve para ir mostrando o corpo do boneco
 	private Integer contadorBoneco = 0;
+	private Integer pontuacao = 0;
 	
 	/**
 	 * Launch the application.
@@ -192,6 +194,10 @@ public class FrmPrincipal extends JFrame {
 						imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/img/cabecaFim.png"))); 
 						JOptionPane.showMessageDialog(null,"Você foi enforcado!");
 						btnVerificar.setEnabled(false);
+						
+						FrmRanking frmRanking = new FrmRanking();
+						frmRanking.show();
+						
 						break;
 						}
 					
@@ -280,9 +286,6 @@ public class FrmPrincipal extends JFrame {
 		});
 		mnTeste.add(mntmNewMenuItem);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Jogador");
-		mnTeste.add(mntmNewMenuItem_1);
-		
 		JMenu mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
 		
@@ -315,34 +318,45 @@ public class FrmPrincipal extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				btnCancelar.setEnabled(true);
-				
-				//Seta invisivel as imagens do boneco
-				imgCabeca.setVisible(false);
-				imgCorpo.setVisible(false);
-				imgMaoDir.setVisible(false);
-				imgMaoEsq.setVisible(false);
-				imgPeDir.setVisible(false);
-				imgPeEsq.setVisible(false);
-				imgTronco.setVisible(false);
-				
-				palavra = daoPalavra.getPalavraRandomico();
-				
-				System.out.println("PALAVRA: " + palavra.getDescricao());
-				
-				String pal="";
-				for(int i=0; i < palavra.getDescricao().length(); i++){
-					pal = pal + " _";
+				if(daoPalavra.getCountRegistros() > 0){
+					
+					pontuacao = 0;
+					
+					btnCancelar.setEnabled(true);
+					
+					//Seta invisivel as imagens do boneco
+					imgCabeca.setVisible(false);
+					imgCorpo.setVisible(false);
+					imgMaoDir.setVisible(false);
+					imgMaoEsq.setVisible(false);
+					imgPeDir.setVisible(false);
+					imgPeEsq.setVisible(false);
+					imgTronco.setVisible(false);
+					
+					palavra = daoPalavra.getPalavraRandomico();
+					
+					System.out.println("PALAVRA: " + palavra.getDescricao());
+					
+					String pal="";
+					for(int i=0; i < palavra.getDescricao().length(); i++){
+						pal = pal + " _";
+					}
+					
+					//lblPalavra.setText("PALAVRA COM "+palavra.getDescricao().length()+" LETRAS.");
+					lblPalavra.setText(pal);
+					lblPalavra.setVisible(true);
+					
+					btnIniciar.setEnabled(false);
+					btnVerificar.setEnabled(true);
+					contadorBoneco = 0;
+					lstErros.setText(null);
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"Nenhuma palavra/frase foi encontrado no banco. \nFavor adicionar.");
 				}
 				
-				//lblPalavra.setText("PALAVRA COM "+palavra.getDescricao().length()+" LETRAS.");
-				lblPalavra.setText(pal);
-				lblPalavra.setVisible(true);
 				
-				btnIniciar.setEnabled(false);
-				btnVerificar.setEnabled(true);
-				contadorBoneco = 0;
-				lstErros.setText(null);
 				
 			}
 		});
@@ -359,6 +373,4 @@ public class FrmPrincipal extends JFrame {
 		lblLetra.setBounds(280, 148, 180, 31);
 		contentPane.add(lblLetra);
 	}
-	
-	
 }
