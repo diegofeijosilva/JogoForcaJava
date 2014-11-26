@@ -170,7 +170,7 @@ public class FrmPrincipal extends JFrame {
 				List<Integer> posChars = new ArrayList<Integer>(); 
 				if (!txtLetra.getText().isEmpty()){
 					
-					//Total de ocorrências do caracter na palavra
+					//Total de ocorrÃªncias do caracter na palavra
 		        	for (int i = 0; i < palavra.getDescricao().length(); i++) {  
 		            if(palavra.getDescricao().charAt(i)== txtLetra.getText().charAt(0)){  
 		            	posChars.add(i);  
@@ -202,17 +202,20 @@ public class FrmPrincipal extends JFrame {
 			        	}
 		        		
 		        		
-		        		// Verifica se já encontrou todos os caracteres
+		        		// Verifica se jÃ¡ encontrou todos os caracteres
 		        		if(charsEncontrados == palavra.getDescricao().length()){
-		        			JOptionPane.showMessageDialog(null,"Você ganhou!");
+		        			JOptionPane.showMessageDialog(null,"VocÃª ganhou!");
 		        			btnVerificar.setEnabled(false);
-		        			FrmRanking frmRanking = new FrmRanking();
-							frmRanking.show();
+
+							Float pontos = (float) (100.0 + (15.0 * (palavra.getDescricao().length() - charsEncontrados)));
+							System.out.println("PONTUAÃ‡ÃƒO: " + Float.toString(pontos));
+							FrmJogador frmJogador = new FrmJogador(pontos);
+		        			frmJogador.show();
 		        		}
 		        		
 						txtLetra.setText(null);
 		        	
-		        	// Não encontrou a letra na palavra
+		        	// NÃ£o encontrou a letra na palavra
 		        	} else {
 						lstErros.append(txtLetra.getText() + "\n");
 
@@ -242,7 +245,7 @@ public class FrmPrincipal extends JFrame {
 							imgCabeca.setIcon(new ImageIcon(FrmPrincipal.class
 									.getResource("/img/cabecaFim.png")));
 							JOptionPane.showMessageDialog(null,
-									"Você foi enforcado!");
+									"VocÃª foi enforcado!");
 							btnVerificar.setEnabled(false);
 
 							FrmRanking frmRanking = new FrmRanking();
@@ -267,20 +270,20 @@ public class FrmPrincipal extends JFrame {
 			private Integer getPosicaoString(String palavra, String car) {
 
 				// aqui ele pega a quantidade de carcteres que tem uma
-				// determinada variável
-				// e armazena numa INT para usá-la de contador
+				// determinada variÃ¡vel
+				// e armazena numa INT para usÃ¡-la de contador
 				int contador = palavra.length();
 
-				// cria um for( para fazer uma varredura letra por letra até
+				// cria um for( para fazer uma varredura letra por letra atÃ©
 				// encontrar
 				for (int i = 0; i < contador; i++) {
 					// usamos substring pra pegar um caractere, passando como
-					// parâmetro,
-					// o primeiro caractere a ser pega, até a ultima.
-					// fiz um if para verificar se o caractere é igual a "_"
+					// parÃ¢metro,
+					// o primeiro caractere a ser pega, atÃ© a ultima.
+					// fiz um if para verificar se o caractere Ã© igual a "_"
 					if (palavra.substring(i, i + 1).equals(car)) {
 						int posicao = i + 1;
-						// JOptionPane.showMessageDialog(null,"Está na posição "
+						// JOptionPane.showMessageDialog(null,"EstÃ¡ na posiÃ§Ã£o "
 						// + posicao ,"TITULO",1);
 						return posicao;
 					}
@@ -451,7 +454,7 @@ public class FrmPrincipal extends JFrame {
 	private void verificarPalavra() {
 		
 		if(daoPalavra.getCountRegistros() == 0)
-			JOptionPane.showMessageDialog(null,"É necessário cadastrar algumas palavras!");
+			JOptionPane.showMessageDialog(null,"Ã‰ necessÃ¡rio cadastrar algumas palavras!");
 		
 	}
 }
