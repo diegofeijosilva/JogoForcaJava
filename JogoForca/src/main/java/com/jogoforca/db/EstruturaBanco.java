@@ -9,7 +9,7 @@ public class EstruturaBanco {
 	Connection conn = null; // Gerencia a conexao
 	Statement statement = null; // instrucao SQL
 	
-	private static String PALAVRA = "CREATE TABLE IF NOT EXISTS PALAVRA (ID INTEGER IDENTITY, DESCRICAO VARCHAR(250))";
+	private static String PALAVRA = "CREATE TABLE IF NOT EXISTS PALAVRA (ID INTEGER IDENTITY, DESCRICAO VARCHAR(250), TEMA VARCHAR(50))";
 	private static String JOGADOR = "CREATE TABLE IF NOT EXISTS JOGADOR (ID INTEGER IDENTITY, NOME VARCHAR(250))";
 	private static String RANKING = "CREATE TABLE IF NOT EXISTS RANKING (ID INTEGER IDENTITY, IDJOGADOR INTEGER, PONTOS DOUBLE)";
 	

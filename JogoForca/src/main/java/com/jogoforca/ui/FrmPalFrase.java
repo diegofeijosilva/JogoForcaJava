@@ -18,18 +18,25 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JComboBox;
 
 public class FrmPalFrase extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
+	
+	private String[] temas = {"Esporte","Lazer","Cinema","Brinquedo","Jardim","Frases"};
+	JComboBox cbxTema = new JComboBox();
 
 	/**
 	 * Create the dialog.
 	 */
 	public FrmPalFrase() {
+		
+		populaJBXTema();
+		
 		setTitle("Cadastro de Palavras ou Frases");
-		setBounds(100, 100, 338, 136);
+		setBounds(100, 100, 338, 171);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -55,6 +62,14 @@ public class FrmPalFrase extends JDialog {
 			lblDigiteAPalavra.setBounds(10, 11, 200, 14);
 			contentPanel.add(lblDigiteAPalavra);
 		}
+		
+		
+		cbxTema.setBounds(10, 69, 296, 20);
+		contentPanel.add(cbxTema);
+		
+		JLabel lblTema = new JLabel("Tema:");
+		lblTema.setBounds(10, 54, 200, 14);
+		contentPanel.add(lblTema);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -72,6 +87,7 @@ public class FrmPalFrase extends JDialog {
 							PalavrasDao dao = new PalavrasDao();
 
 							palavra.setDescricao(textField.getText());
+							palavra.setTema(cbxTema.getSelectedItem().toString());
 							Boolean retorno = dao.saveOrUpdate(palavra);
 
 							if (retorno) {
@@ -95,4 +111,9 @@ public class FrmPalFrase extends JDialog {
 		}
 	}
 
+	private void populaJBXTema() {
+		
+		cbxTema.setModel(new javax.swing.DefaultComboBoxModel(temas));
+		
+	}
 }

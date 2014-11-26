@@ -4,7 +4,14 @@ public class Palavra {
 	
 	private Integer id;
 	private String descricao;
-	
+	private String tema;
+
+	public String getTema() {
+		return tema;
+	}
+	public void setTema(String tema) {
+		this.tema = tema;
+	}
 	public Integer getId() {
 		return id;
 	}

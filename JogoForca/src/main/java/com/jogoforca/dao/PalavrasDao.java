@@ -20,7 +20,7 @@ public class PalavrasDao implements IGenericDao<Palavra> {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 
-	private static String INSERT = "INSERT INTO PALAVRA(DESCRICAO) VALUES (?)";
+	private static String INSERT = "INSERT INTO PALAVRA(DESCRICAO, TEMA) VALUES (?,?)";
 	private static String DELETE = "DELETE FROM PALAVRA WHERE ID = ?";
 	private static String UPDATE = "UPDATE FROM DISPOSITIVO SET NOME = ? WHERE ID = ?";
 	private static String SELECT_ALL = "SELECT * FROM DISPOSITIVO ORDER BY ID";
@@ -42,8 +42,8 @@ public class PalavrasDao implements IGenericDao<Palavra> {
 
 			pstmt = conn.prepareStatement(INSERT);
 
-			// Código imei de teste
 			pstmt.setString(1, obj.getDescricao());
+			pstmt.setString(2, obj.getTema());
 
 			pstmt.execute();
 			pstmt.close();
@@ -116,6 +116,7 @@ public class PalavrasDao implements IGenericDao<Palavra> {
 					obj = new Palavra();
 					obj.setId(rs.getInt("ID"));
 					obj.setDescricao(rs.getString("DESCRICAO"));
+					obj.setTema(rs.getString("TEMA"));
 					
 					System.out.println("PALAVRA SELECIONADA: " + obj.getDescricao());
 					
