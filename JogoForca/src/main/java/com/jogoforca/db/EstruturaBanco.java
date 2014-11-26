@@ -10,8 +10,7 @@ public class EstruturaBanco {
 	Statement statement = null; // instrucao SQL
 	
 	private static String PALAVRA = "CREATE TABLE IF NOT EXISTS PALAVRA (ID INTEGER IDENTITY, DESCRICAO VARCHAR(250), TEMA VARCHAR(50))";
-	private static String JOGADOR = "CREATE TABLE IF NOT EXISTS JOGADOR (ID INTEGER IDENTITY, NOME VARCHAR(250))";
-	private static String RANKING = "CREATE TABLE IF NOT EXISTS RANKING (ID INTEGER IDENTITY, IDJOGADOR INTEGER, PONTOS DOUBLE)";
+	private static String JOGADOR = "CREATE TABLE IF NOT EXISTS JOGADOR (ID INTEGER IDENTITY, NOME VARCHAR(250), PONTOS DOUBLE)";
 	
 	public boolean criaEstrutura(){
 		
@@ -23,7 +22,6 @@ public class EstruturaBanco {
 
 			statement.executeUpdate(PALAVRA);
 			statement.executeUpdate(JOGADOR);
-			statement.executeUpdate(RANKING);
 			//statement.executeUpdate("CREATE TABLE Projeto ( id INTEGER IDENTITY, idTipoProjeto INTEGER, descricao VARCHAR(256), dtInicio date, dtFim date, statusProjeto BOOLEAN, nivelDificuldade CHAR)");
 			
 			statement.close();
@@ -47,7 +45,6 @@ public class EstruturaBanco {
 
 			statement.executeUpdate("DROP TABLE PALAVRA IF EXISTS");
 			statement.executeUpdate("DROP TABLE JOGADOR IF EXISTS");
-			statement.executeUpdate("DROP TABLE RANKING IF EXISTS");
 			//statement.executeUpdate("CREATE TABLE Projeto ( id INTEGER IDENTITY, idTipoProjeto INTEGER, descricao VARCHAR(256), dtInicio date, dtFim date, statusProjeto BOOLEAN, nivelDificuldade CHAR)");
 			
 			statement.close();
