@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 import javax.swing.JToolBar;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -93,6 +96,10 @@ public class FrmPrincipal extends JFrame {
 	public FrmPrincipal() {
 		
 		this.verificarPalavra();
+		
+		txtLetra = new JTextField();
+		txtLetra.setDocument(new TextDocument(1));
+ 
 		
 		setTitle("Jogo Forca");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -303,7 +310,7 @@ public class FrmPrincipal extends JFrame {
 		contentPane.add(txtPalavra);
 		txtPalavra.setColumns(10);
 
-		txtLetra = new JTextField();
+		//txtLetra = new JTextField();
 		txtLetra.setFont(new Font("Arial Black", Font.BOLD, 20));
 		txtLetra.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
@@ -458,4 +465,53 @@ public class FrmPrincipal extends JFrame {
 			JOptionPane.showMessageDialog(null,"Ã‰ necessÃ¡rio cadastrar algumas palavras!");
 		
 	}
+	
+	
+	public class TextDocument extends PlainDocument {  
+	    /** 
+	     * Tamanho máximo default do componente = 4000 caracteres 
+	     */  
+	    private int tamanhoMax = 4000;  
+	  
+	    /** 
+	     * Cria o validador com o tamanho máximo de 4000 
+	     */  
+	    public TextDocument() {  
+	        super();  
+	    }  
+	   
+	    /** 
+	     * Cria o validador com o tamanho definido no parâmetro 
+	     *  
+	     * @param tamanho Tamanho máximo da cadeia de caracteres 
+	     */  
+	    public TextDocument(int tamanho) {  
+	        super();  
+	        tamanhoMax = tamanho;  
+	    }  
+	  
+	        /** 
+	     * A cada tecla pressionada valida a tecla verifica se não está no máximo que o campo pode aguentar. 
+	     *  
+	     * @see javax.swing.text.Document#insertString(int, java.lang.String, javax.swing.text.AttributeSet) 
+	     */  
+	    public void insertString(int offs, String str, AttributeSet a)   
+	         throws BadLocationException {  
+	   
+	         if (str == null) return;  
+	               
+	         String oldString = getText (0, getLength() );  
+	         String newString = oldString.substring(0, offs) + str + oldString.substring(offs);   
+	                   
+	         if (newString.length() > tamanhoMax) {  
+	             super.insertString(offs, "", a);  
+	         } else {  
+	             // Repassa para o pai.  
+	             super.insertString(offs, str, a);  
+	         }  
+	                  
+	    }  
+	  
+	}  
+	
 }
