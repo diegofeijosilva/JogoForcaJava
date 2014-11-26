@@ -19,12 +19,11 @@ public class JogadorDao implements IGenericDao<Jogador> {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 
-	private static String INSERT = "INSERT INTO JOGADOR(ID, NOME, PONTOS) VALUES (?,?,?)";
+	private static String INSERT = "INSERT INTO JOGADOR(NOME, PONTOS) VALUES (?,?)";
 	private static String DELETE = "DELETE FROM JOGADOR WHERE ID = ?";
 	private static String UPDATE = "UPDATE FROM JOGADOR SET NOME = ? WHERE ID = ?";
 	private static String SELECT_ALL = "SELECT * FROM JOGADOR ORDER BY PONTOS DESC";
 	private static String SELECT_ID = "SELECT * FROM JOGADOR WHERE ID = ?";
-	private static String SELECT_MAX = "SELECT MAX(ID) FROM JOGADOR";
 
 	public JogadorDao() {
 		EstruturaBanco ts = new EstruturaBanco();
@@ -38,19 +37,11 @@ public class JogadorDao implements IGenericDao<Jogador> {
 		try {
 			conn = conexao.getConnection();
 
-			Integer maxId = 1;
-			pstmt = conn.prepareStatement(SELECT_MAX);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-				maxId = rs.getInt("ID");
-			}
-			
 			pstmt = conn.prepareStatement(INSERT);
 
 			// Código imei de teste
-			pstmt.setInt(1, maxId);
-			pstmt.setString(2, obj.getNome());
-			pstmt.setFloat(3, obj.getPontos());
+			pstmt.setString(1, obj.getNome());
+			pstmt.setFloat(2, obj.getPontos());
 
 			pstmt.execute();
 			pstmt.close();

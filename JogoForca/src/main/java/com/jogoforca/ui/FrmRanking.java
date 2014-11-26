@@ -42,12 +42,14 @@ public class FrmRanking extends JDialog {
 		lblJogador.setBounds(45, posicaoY, 81, 26);
 		contentPanel.add(lblJogador);
 		
-		JLabel lblPontuao = new JLabel("Pontua\u00E7\u00E3o");
-		lblPontuao.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblPontuao.setBounds(456, posicaoY, 113, 26);
+		JLabel lblPontuacao = new JLabel("Pontua\u00E7\u00E3o");
+		lblPontuacao.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblPontuacao.setBounds(456, posicaoY, 113, 26);
+		contentPanel.add(lblPontuacao);
 		
 		ArrayList<Jogador> jogadores = (ArrayList<Jogador>) (new JogadorDao()).getAll();
 		
+		Integer qtdeRank = 0;
 		for (Jogador jogador : jogadores) {
 			posicaoY += 26;
 			
@@ -56,12 +58,16 @@ public class FrmRanking extends JDialog {
 			lblJogador.setBounds(45, posicaoY, 400, 26);
 			contentPanel.add(lblJogador);
 			
-			lblPontuao = new JLabel(Float.toString(jogador.getPontos()));
-			lblPontuao.setFont(new Font("Tahoma", Font.BOLD, 16));
-			lblPontuao.setBounds(456, posicaoY, 113, 26);
+			lblPontuacao = new JLabel(Float.toString(jogador.getPontos()));
+			System.out.println("pontuacao = " + lblPontuacao.getText());
+			lblPontuacao.setFont(new Font("Tahoma", Font.BOLD, 16));
+			lblPontuacao.setBounds(456, posicaoY, 113, 26);
+			contentPanel.add(lblPontuacao);
+			
+			qtdeRank++;
+			if (qtdeRank == 10) break;
 		}
 		
-		contentPanel.add(lblPontuao);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -70,7 +76,7 @@ public class FrmRanking extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						FrmRanking.this.dispose();
 					}
 				});
 				okButton.setActionCommand("OK");

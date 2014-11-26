@@ -211,6 +211,7 @@ public class FrmPrincipal extends JFrame {
 							System.out.println("PONTUAÇÃO: " + Float.toString(pontos));
 							FrmJogador frmJogador = new FrmJogador(pontos);
 		        			frmJogador.show();
+		        			frmJogador.setEnabled(true);
 		        		}
 		        		
 						txtLetra.setText(null);

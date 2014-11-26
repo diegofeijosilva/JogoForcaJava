@@ -82,6 +82,9 @@ public class FrmJogador extends JDialog {
 						
 						FrmRanking frmRanking = new FrmRanking();
 						frmRanking.show();
+						frmRanking.setEnabled(true);
+						
+						FrmJogador.this.dispose();
 					}
 				});
 				okButton.setActionCommand("OK");
