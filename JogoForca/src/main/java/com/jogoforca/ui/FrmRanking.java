@@ -9,12 +9,18 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.util.ArrayList;
+
 import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
+
+import com.jogoforca.dao.JogadorDao;
+import com.jogoforca.model.Jogador;
 
 public class FrmRanking extends JDialog {
 
@@ -28,14 +34,33 @@ public class FrmRanking extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
+		Integer posicaoY = 17;
+		System.out.println("MOSTRANDO TELA RANKING");
+		
 		JLabel lblJogador = new JLabel("Jogador");
 		lblJogador.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblJogador.setBounds(45, 14, 81, 26);
+		lblJogador.setBounds(45, posicaoY, 81, 26);
 		contentPanel.add(lblJogador);
 		
 		JLabel lblPontuao = new JLabel("Pontua\u00E7\u00E3o");
 		lblPontuao.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblPontuao.setBounds(456, 17, 113, 20);
+		lblPontuao.setBounds(456, posicaoY, 113, 26);
+		
+		ArrayList<Jogador> jogadores = (ArrayList<Jogador>) (new JogadorDao()).getAll();
+		
+		for (Jogador jogador : jogadores) {
+			posicaoY += 26;
+			
+			lblJogador = new JLabel(jogador.getNome());
+			lblJogador.setFont(new Font("Tahoma", Font.BOLD, 16));
+			lblJogador.setBounds(45, posicaoY, 400, 26);
+			contentPanel.add(lblJogador);
+			
+			lblPontuao = new JLabel(Float.toString(jogador.getPontos()));
+			lblPontuao.setFont(new Font("Tahoma", Font.BOLD, 16));
+			lblPontuao.setBounds(456, posicaoY, 113, 26);
+		}
+		
 		contentPanel.add(lblPontuao);
 		{
 			JPanel buttonPane = new JPanel();
