@@ -1,9 +1,24 @@
 package com.jogoforca.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "JOGADOR")
 public class Jogador {
 	
+	@Id
+	@GeneratedValue
+	@Column(name="ID")
 	private Integer id;
+	
+	@Column(name="PONTOS")
 	private Float pontos;
+	
+	@Column(name="NOME")
 	private String nome;
 	
 	public Integer getId() {

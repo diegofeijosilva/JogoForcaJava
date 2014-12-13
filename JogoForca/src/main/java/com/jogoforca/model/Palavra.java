@@ -1,9 +1,24 @@
 package com.jogoforca.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PALAVRA")
 public class Palavra {
 	
+	@Id
+	@GeneratedValue
+	@Column(name="ID")
 	private Integer id;
+	
+	@Column(name="DESCRICAO")
 	private String descricao;
+	
+	@Column(name="TEMA")
 	private String tema;
 
 	public String getTema() {

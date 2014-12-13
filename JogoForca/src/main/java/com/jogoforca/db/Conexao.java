@@ -4,26 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Conexao {
-	
-	    private static String JDBC_DRIVER = "org.hsqldb.jdbcDriver";  
-	    //private static String DATABASE_URL = "jdbc:hsqldb:file:c:/bd/banco.bd";   
-	    private static String DATABASE_URL = "jdbc:hsqldb:file:JogoForca.bd"; 
-	    
-	    private Connection conn = null; 
-	      
-	    public Connection getConnection() throws SQLException{  
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-	        try {  
-	            Class.forName(JDBC_DRIVER);  
-	            conn = DriverManager.getConnection( DATABASE_URL, "sa", ""); 
-	            System.out.println("Conectado: " + conn);
-	            return conn;
-	            
-	        } catch (ClassNotFoundException e){  
-	            throw new SQLException(e.getMessage());   
-	        }        
-	        
-	    }     
+public class Conexao {
+
+	private EntityManagerFactory emFactory;
+
+	public Conexao() {
+		emFactory = Persistence.createEntityManagerFactory("conex");
+	}
+
+	public EntityManager getEntityManager() {
+		return emFactory.createEntityManager();
+	}
+
+	public void close() {
+		emFactory.close();
+	}
 
 }

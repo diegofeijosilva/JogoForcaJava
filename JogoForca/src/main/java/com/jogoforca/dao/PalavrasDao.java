@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import com.jogoforca.db.Conexao;
 import com.jogoforca.db.EstruturaBanco;
 import com.jogoforca.model.Palavra;
@@ -14,23 +17,15 @@ import com.jogoforca.util.Util;
 
 public class PalavrasDao implements IGenericDao<Palavra> {
 
-	Conexao conexao;
-	Connection conn;
-
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-
-	private static String INSERT = "INSERT INTO PALAVRA(DESCRICAO, TEMA) VALUES (?,?)";
-	private static String DELETE = "DELETE FROM PALAVRA WHERE ID = ?";
-	private static String UPDATE = "UPDATE FROM DISPOSITIVO SET NOME = ? WHERE ID = ?";
-	private static String SELECT_ALL = "SELECT * FROM DISPOSITIVO ORDER BY ID";
-	private static String SELECT_ID = "SELECT * FROM PALAVRA WHERE ID = ?";
+	private EntityManager em;
 
 	public PalavrasDao() {
+		
 		EstruturaBanco ts = new EstruturaBanco();
 		ts.criaEstrutura();
 
-		conexao = new Conexao();
+		Conexao conn = new Conexao();
+		this.em = conn.getEntityManager();
 
 	}
 
@@ -38,21 +33,16 @@ public class PalavrasDao implements IGenericDao<Palavra> {
 
 		// Save
 		try {
-			conn = conexao.getConnection();
 
-			pstmt = conn.prepareStatement(INSERT);
-
-			pstmt.setString(1, obj.getDescricao());
-			pstmt.setString(2, obj.getTema());
-
-			pstmt.execute();
-			pstmt.close();
-
+			this.em.getTransaction().begin();
+			this.em.persist(obj);
+			this.em.getTransaction().commit();
+			
 			System.out.println("DADOS SALVOS");
 
 			return true; // Conseguiu gravar
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
@@ -67,20 +57,16 @@ public class PalavrasDao implements IGenericDao<Palavra> {
 		Integer total = 0;
 
 		try {
-			conn = conexao.getConnection();
 
-			pstmt = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM PALAVRA");
+			Query q = em.createNativeQuery("SELECT COUNT(*) AS TOTAL FROM PALAVRA");
 
-			ResultSet rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				total = rs.getInt("TOTAL");
+			Object obj = q.getSingleResult();
+			
+			if(obj != null){
+				total = Integer.parseInt(obj.toString());
 			}
 
-			pstmt.execute();
-			pstmt.close();
-
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			return total;
@@ -100,37 +86,13 @@ public class PalavrasDao implements IGenericDao<Palavra> {
 		    int randomNum = Util.randInt(1, totalPalavras);
 		    
 		    System.out.println("PALAVARA A SER PESQUISADA: " + randomNum);
-	  
-		    ResultSet rs;
-		    while(true){
-	    	   conn = conexao.getConnection();
-
-				pstmt = conn.prepareStatement(SELECT_ID);
-
-				// Código imei de teste
-				pstmt.setInt(1, randomNum);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()){
-					obj = new Palavra();
-					obj.setId(rs.getInt("ID"));
-					obj.setDescricao(rs.getString("DESCRICAO"));
-					obj.setTema(rs.getString("TEMA"));
-					
-					System.out.println("PALAVRA SELECIONADA: " + obj.getDescricao());
-					
-					pstmt.execute();
-					pstmt.close();
-					break;	
-				}
-				
-				// Se não achou procura outro
-				randomNum = Util.randInt(1, totalPalavras);
-	       }
+		    		
+		    Query q = em.createNativeQuery(" SELECT * FROM PALAVRA WHERE ID = " + (randomNum-1), Palavra.class);
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			obj =  (Palavra) q.getSingleResult();
+
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally{
 			return obj;

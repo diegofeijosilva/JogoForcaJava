@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 public class EstruturaBanco {
-	
-	Connection conn = null; // Gerencia a conexao
-	Statement statement = null; // instrucao SQL
 	
 	private static String PALAVRA = "CREATE TABLE IF NOT EXISTS PALAVRA (ID INTEGER IDENTITY, DESCRICAO VARCHAR(250), TEMA VARCHAR(50))";
 	private static String JOGADOR = "CREATE TABLE IF NOT EXISTS JOGADOR (ID INTEGER IDENTITY, NOME VARCHAR(250), PONTOS DOUBLE)";
@@ -17,16 +17,19 @@ public class EstruturaBanco {
 		Conexao conex = new Conexao();
 
 		try{
-			conn = conex.getConnection();
-			statement = conn.createStatement();
 
-			statement.executeUpdate(PALAVRA);
-			statement.executeUpdate(JOGADOR);
-			//statement.executeUpdate("CREATE TABLE Projeto ( id INTEGER IDENTITY, idTipoProjeto INTEGER, descricao VARCHAR(256), dtInicio date, dtFim date, statusProjeto BOOLEAN, nivelDificuldade CHAR)");
+		    EntityManager em = conex.getEntityManager();
+ 
+		    em.getTransaction().begin();
+		    Query q = em.createNativeQuery(PALAVRA);
+		    q.executeUpdate();
+		    
+		    q = em.createNativeQuery(JOGADOR);
+		    q.executeUpdate();
+		    
+		    em.getTransaction().commit();
 			
-			statement.close();
-			
-		}catch (SQLException sqlException) {
+		}catch (Exception sqlException) {
 			System.out.println("Erro ao Criar as Tabelas no banco");
 			sqlException.printStackTrace();
 			return false;
@@ -34,27 +37,5 @@ public class EstruturaBanco {
 	
 	return true;	
 	}
-	
-	public void dropEstrutura(){
-		
-		Conexao conex = new Conexao();
-
-		try{
-			conn = conex.getConnection();
-			statement = conn.createStatement();
-
-			statement.executeUpdate("DROP TABLE PALAVRA IF EXISTS");
-			statement.executeUpdate("DROP TABLE JOGADOR IF EXISTS");
-			//statement.executeUpdate("CREATE TABLE Projeto ( id INTEGER IDENTITY, idTipoProjeto INTEGER, descricao VARCHAR(256), dtInicio date, dtFim date, statusProjeto BOOLEAN, nivelDificuldade CHAR)");
-			
-			statement.close();
-			
-		}catch (SQLException sqlException) {
-			System.out.println("Erro ao Criar as Tabelas no banco");
-			sqlException.printStackTrace();
-		}
-		
-	}
-
 
 }

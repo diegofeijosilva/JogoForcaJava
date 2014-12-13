@@ -7,17 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import com.jogoforca.db.Conexao;
 import com.jogoforca.db.EstruturaBanco;
 import com.jogoforca.model.Jogador;
+import com.jogoforca.model.Palavra;
 
 public class JogadorDao implements IGenericDao<Jogador> {
 
-	Conexao conexao;
-	Connection conn;
-
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
+	private EntityManager em;
 
 	private static String INSERT = "INSERT INTO JOGADOR(NOME, PONTOS) VALUES (?,?)";
 	private static String DELETE = "DELETE FROM JOGADOR WHERE ID = ?";
@@ -29,28 +29,23 @@ public class JogadorDao implements IGenericDao<Jogador> {
 		EstruturaBanco ts = new EstruturaBanco();
 		ts.criaEstrutura();
 
-		conexao = new Conexao();
+		Conexao conn = new Conexao();
+		this.em = conn.getEntityManager();
 	}
 
 	public boolean saveOrUpdate(Jogador obj) {
 		// Save
 		try {
-			conn = conexao.getConnection();
-
-			pstmt = conn.prepareStatement(INSERT);
-
-			// Código imei de teste
-			pstmt.setString(1, obj.getNome());
-			pstmt.setFloat(2, obj.getPontos());
-
-			pstmt.execute();
-			pstmt.close();
-
+			
+			this.em.getTransaction().begin();
+			this.em.persist(obj);
+			this.em.getTransaction().commit();
+			
 			System.out.println("DADOS SALVOS");
 
 			return true; // Conseguiu gravar
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
@@ -68,25 +63,12 @@ public class JogadorDao implements IGenericDao<Jogador> {
 		List<Jogador> lstJogador = new ArrayList<Jogador>();
 
 		try {
-			conn = conexao.getConnection();
+			
+			Query q = em.createNativeQuery(SELECT_ALL, Jogador.class);
+			
+			lstJogador =  (List<Jogador>) q.getResultList();
 
-			pstmt = conn.prepareStatement(SELECT_ALL);
-
-			ResultSet rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				Jogador jogador = new Jogador();
-
-				jogador.setId(rs.getInt("ID"));
-				jogador.setNome(rs.getString("NOME"));
-				jogador.setPontos(rs.getFloat("PONTOS"));
-
-				lstJogador.add(jogador);
-			}
-
-			pstmt.close();
-
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
@@ -101,7 +83,7 @@ public class JogadorDao implements IGenericDao<Jogador> {
 		Jogador jogador = null;
 
 		try {
-			conn = conexao.getConnection();
+/*//			conn = conexao.getConnection();
 
 			pstmt = conn.prepareStatement(SELECT_ID);
 
@@ -118,9 +100,9 @@ public class JogadorDao implements IGenericDao<Jogador> {
 
 			}
 
-			pstmt.close();
+			pstmt.close();*/
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
